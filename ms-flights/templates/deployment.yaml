@@ -44,7 +44,7 @@ spec:
               value: {{ .Values.MYSQL_DATABASE | quote }}
               valueFrom:
                 secretKeyRef:
-                  name: db-creds
+                  name: {{ .Values.MYSQLSecretName }}
                   key: password
           ports:
             - name: http
@@ -52,12 +52,12 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-            path: /ping
-            port: http
+              path: /ping
+              port: http
           readinessProbe:
             httpGet:
-            path: /ping
-            port: http
+              path: /ping
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
